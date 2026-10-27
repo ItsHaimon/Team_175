@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team T175 · Spatial Hypothesis Generator</title>
+<meta name="description" content="Team T175 — QUT IFB399 Capstone, Project P953, Spatial Hypothesis Generator for OreFox AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1214; --bg2:#161b1e; --card:#1b2125; --line:#2a3237;
+    --text:#eef1f2; --muted:#9aa6ad; --gold:#d6a84a; --gold2:#f0c96b; --teal:#3fa9a0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:10;background:rgba(15,18,20,.8);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:Fraunces,serif;font-weight:700;font-size:1.15rem;letter-spacing:.3px;text-decoration:none}
+  .brand span{color:var(--gold)}
+  nav ul{display:flex;gap:28px;list-style:none}
+  nav ul a{text-decoration:none;color:var(--muted);font-size:.92rem;font-weight:500;transition:color .2s}
+  nav ul a:hover{color:var(--text)}
+
+  /* HERO */
+  header.hero{position:relative;overflow:hidden;padding:120px 0 110px;border-bottom:1px solid var(--line)}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(600px 300px at 80% 20%,rgba(214,168,74,.18),transparent 70%),
+      radial-gradient(500px 300px at 10% 90%,rgba(63,169,160,.14),transparent 70%);}
+  .contours{position:absolute;inset:0;opacity:.12;pointer-events:none}
+  .hero .wrap{position:relative}
+  .eyebrow{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(214,168,74,.4);padding:6px 14px;border-radius:999px;margin-bottom:26px}
+  h1{font-family:Fraunces,serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;max-width:820px}
+  h1 em{font-style:normal;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{color:var(--muted);font-size:1.15rem;max-width:640px;margin-top:22px}
+  .cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 24px;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;transition:transform .2s,background .2s}
+  .btn.primary{background:var(--gold);color:#1a1408}
+  .btn.primary:hover{background:var(--gold2);transform:translateY(-2px)}
+  .btn.ghost{border:1px solid var(--line);color:var(--text)}
+  .btn.ghost:hover{border-color:var(--muted);transform:translateY(-2px)}
+
+  section{padding:96px 0}
+  .sec-head{margin-bottom:48px}
+  .sec-head .eyebrow{margin-bottom:14px}
+  h2{font-family:Fraunces,serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.15}
+  .sec-head p{color:var(--muted);max-width:620px;margin-top:12px}
+
+  /* TEAM */
+  .team{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  @media (max-width:1000px){.team{grid-template-columns:repeat(3,1fr)}}
+  .info{min-width:0}
+  .member{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .3s,border-color .3s,box-shadow .3s}
+  a.member:hover{transform:translateY(-6px);border-color:rgba(214,168,74,.55);box-shadow:0 18px 40px -18px rgba(214,168,74,.35)}
+  .photo{position:relative;aspect-ratio:4/5;background:linear-gradient(160deg,#2a3237,#1b2125);overflow:hidden}
+  .photo img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;filter:grayscale(15%);transition:transform .5s,filter .5s}
+  a.member:hover .photo img{transform:scale(1.05);filter:grayscale(0)}
+  .photo .initials{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:Fraunces,serif;font-size:3rem;color:var(--gold)}
+  .photo.noimg .initials{display:flex}
+  .li-badge{position:absolute;right:12px;bottom:12px;width:38px;height:38px;border-radius:10px;background:#0a66c2;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:.3s}
+  a.member:hover .li-badge{opacity:1;transform:none}
+  .li-badge svg{width:20px;height:20px;fill:#fff}
+  .info{padding:18px 20px 22px}
+  .info h3{font-size:1.08rem;font-weight:600}
+  .info .role{color:var(--muted);font-size:.86rem;margin-top:4px}
+  .info .link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:.82rem;font-weight:600;color:var(--gold)}
+
+  /* PROJECT */
+  .alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px}
+  .feat .ico{width:44px;height:44px;border-radius:12px;background:rgba(214,168,74,.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--gold);font-size:1.3rem}
+  .feat h3{font-size:1.05rem;margin-bottom:8px}
+  .feat p{color:var(--muted);font-size:.93rem}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:22px;margin-top:56px}
+  .stat{border-left:2px solid var(--gold);padding-left:18px}
+  .stat b{display:block;font-family:Fraunces,serif;font-size:2.4rem;line-height:1}
+  .stat span{color:var(--muted);font-size:.88rem}
+
+  /* WORKFLOW */
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-size:.9rem;font-weight:500}
+  .arrow{color:var(--gold)}
+  .stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+  .chip{font-size:.8rem;color:var(--muted);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+  nav ul a.nav-demo{color:var(--gold)}
+  nav ul a.nav-demo:hover{color:var(--gold2)}
+  .demo-cta{margin-top:32px}
+  footer{padding:48px 0;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:640px){
+    nav ul{gap:14px} nav ul li:nth-child(3){display:none} header.hero{padding:80px 0 70px} section{padding:72px 0}
+    .team{grid-template-columns:repeat(2,1fr);gap:14px}
+    .info{padding:14px} .info h3{font-size:.95rem}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#">Team <span>T175</span></a>
+    <ul>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#project">Project</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a class="nav-demo" href="https://itshaimon.github.io/WebapplicationDisplay/index.html" target="_blank" rel="noopener">Live demo ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="contours" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#d6a84a" stroke-width="1.2">
+      <path d="M0,420 C200,360 320,470 520,410 S860,300 1200,360"/>
+      <path d="M0,380 C220,320 340,430 540,370 S880,260 1200,320"/>
+      <path d="M0,340 C240,280 360,390 560,330 S900,220 1200,280"/>
+      <path d="M0,300 C260,240 380,350 580,290 S920,180 1200,240"/>
+      <path d="M0,260 C280,200 400,310 600,250 S940,140 1200,200"/>
+      <path d="M0,220 C300,160 420,270 620,210 S960,100 1200,160"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <span class="eyebrow">QUT IFB399 Capstone · Project P953</span>
+    <h1>Spatial Hypothesis <em>Generator</em></h1>
+    <p class="lede">A geospatial decision-support tool built with OreFox AI that takes mineral-occurrence data from a raw extract to an interpretable, exportable exploration hypothesis — all inside GeoDesk.AI.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://itshaimon.github.io/WebapplicationDisplay/index.html" target="_blank" rel="noopener">View live demo ↗</a>
+      <a class="btn ghost" href="#team">Meet the team</a>
+    </div>
+  </div>
+</header>
+
+<section id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Team</span>
+      <h2>Five developers, one map.</h2>
+      <p>Click a profile to connect on LinkedIn.</p>
+    </div>
+
+    <div class="team">
+      <a class="member reveal" href="https://www.linkedin.com/in/simon-phan-553574183/" target="_blank" rel="noopener">
+        <div class="photo"><img src="images/simon.jpg" alt="Simon Phan" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"><div class="initials">SP</div>
+          <div class="li-badge"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg></div></div>
+        <div class="info"><h3>Simon Phan</h3><p class="role">Client liaison · GeoDesk integration · Handover</p><span class="link">LinkedIn →</span></div>
+      </a>
+
+      <a class="member reveal" href="https://www.linkedin.com/in/kayne-capuno-987190417/" target="_blank" rel="noopener">
+        <div class="photo"><img src="images/kayne.jpg" alt="Kayne Capuno" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"><div class="initials">KC</div>
+          <div class="li-badge"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg></div></div>
+        <div class="info"><h3>Kayne Capuno</h3><p class="role">Sprint planning · UX · Configure &amp; Summary UI</p><span class="link">LinkedIn →</span></div>
+      </a>
+
+      <a class="member reveal" href="https://www.linkedin.com/in/jasmine-aurelian-724887431/" target="_blank" rel="noopener">
+        <div class="photo"><img src="images/jasmine.jpg" alt="Jasmine Aurelian" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"><div class="initials">JA</div>
+          <div class="li-badge"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg></div></div>
+        <div class="info"><h3>Jasmine Aurelian</h3><p class="role">Risk &amp; ethics · GenAI evaluation · Geology review</p><span class="link">LinkedIn →</span></div>
+      </a>
+
+      <!-- Add a LinkedIn URL in href to make these cards clickable -->
+      <a class="member reveal" href="#" onclick="return false">
+        <div class="photo"><img src="images/lewis.jpg" alt="Lewis Hicks" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"><div class="initials">LH</div></div>
+        <div class="info"><h3>Lewis Hicks</h3><p class="role">Client meetings · Local AI · Mapbox research</p></div>
+      </a>
+
+      <a class="member reveal" href="#" onclick="return false">
+        <div class="photo"><img src="images/mark.jpg" alt="Mark Pulman" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"><div class="initials">MP</div></div>
+        <div class="info"><h3>Mark Pulman</h3><p class="role">Test planning · Backend pipeline · Zone validation</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="project" class="alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Project</span>
+      <h2>From occurrence data to a hypothesis a geologist can defend.</h2>
+      <p>Built for OreFox AI Limited, SHG brings data validation, multi-scale spatial statistics, interpretable candidate zones and a reproducible report into one web workflow — with orogenic gold as the proof of concept.</p>
+    </div>
+    <div class="grid3">
+      <div class="feat reveal"><div class="ico">◈</div><h3>Spatial analysis</h3><p>Nearest-neighbour, k-NN, Ripley-style clustering, characteristic wavelength, kernel density, spatial graphs and clusters.</p></div>
+      <div class="feat reveal"><div class="ico">▲</div><h3>3D terrain review</h3><p>Mapbox GL JS terrain with occurrences, extruded hypothesis zones, pattern centres and radial corridors.</p></div>
+      <div class="feat reveal"><div class="ico">✦</div><h3>Local, bounded AI</h3><p>DeepSeek-R1 and Qwen2.5-VL run locally via Ollama — interpreting graphs and choosing only among pre-validated candidates.</p></div>
+      <div class="feat reveal"><div class="ico">⇣</div><h3>Traceable exports</h3><p>Every run saves its inputs, filters, plots, GeoJSON, map snapshot and a consolidated PDF report.</p></div>
+      <div class="feat reveal"><div class="ico">⌘</div><h3>Flexible ingestion</h3><p>CSV, JSON and GeoJSON with field normalisation, coordinate validation and commodity / deposit filters.</p></div>
+      <div class="feat reveal"><div class="ico">⚑</div><h3>Honest by design</h3><p>Outputs are labelled as hypotheses for expert follow-up, with a clearly marked non-AI fallback.</p></div>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b>20</b><span>user stories delivered</span></div>
+      <div class="stat"><b>6</b><span>two-week sprints</span></div>
+      <div class="stat"><b>25</b><span>passing candidate-selection tests</span></div>
+      <div class="stat"><b>100%</b><span>local AI inference</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="workflow">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Workflow</span>
+      <h2>One path, start to finish.</h2>
+    </div>
+    <div class="flow reveal">
+      <span class="step">Select dataset</span><span class="arrow">→</span>
+      <span class="step">Configure analysis</span><span class="arrow">→</span>
+      <span class="step">Spatial tests</span><span class="arrow">→</span>
+      <span class="step">Wavelength</span><span class="arrow">→</span>
+      <span class="step">Hypothesis zones</span><span class="arrow">→</span>
+      <span class="step">Summary &amp; PDF</span>
+    </div>
+    <a class="btn primary demo-cta reveal" href="https://itshaimon.github.io/WebapplicationDisplay/index.html" target="_blank" rel="noopener">Try the demo web app ↗</a>
+    <div class="stack reveal">
+      <span class="chip">Django</span><span class="chip">Python</span><span class="chip">Mapbox GL JS</span>
+      <span class="chip">Ollama</span><span class="chip">DeepSeek-R1 8B</span><span class="chip">Qwen2.5-VL 7B</span>
+      <span class="chip">GeoJSON</span><span class="chip">GeoDesk.AI</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Team T175 · QUT IFB399 Capstone 2026</span>
+    <span>Industry partner: OreFox AI Limited · <a href="https://itshaimon.github.io/WebapplicationDisplay/index.html" target="_blank" rel="noopener" style="color:var(--gold)">Live demo</a></span>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
