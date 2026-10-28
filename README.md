@@ -24,3 +24,4 @@ To add LinkedIn links for Lewis or Mark, open `index.html`, find their card, rep
 2. Upload `index.html`, `README.md` and the `images` folder (Add file → Upload files → Commit).
 3. Go to **Settings → Pages**, set **Source** to *Deploy from a branch*, branch `main`, folder `/ (root)`, and save.
 4. After a minute the site is live at `https://<your-username>.github.io/t175-shg/`.
+ 
